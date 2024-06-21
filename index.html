@@ -136,13 +136,13 @@
 
         .mouse-icon, .arrow-icon {
             margin-top: 20px;
-            display: inline-block;
+            display: none; /* Изначально скрыты */
             opacity: 0;
             animation: fadeIn 0.5s ease-in-out forwards;
         }
 
         .arrow-icon {
-            margin-top: 0;
+            margin-top: 10px;
             margin-bottom: 20px;
         }
 
@@ -242,8 +242,12 @@
 
             setTimeout(() => typeEffect(welcomeMessage, welcomeElement, typingDelay), appearDelay);
             setTimeout(() => typeEffect(welcomeSubtext, subtextElement, typingDelay, () => {
-                mouseIcon.style.opacity = '1';
-                arrowIcon.style.opacity = '1';
+                mouseIcon.style.display = 'block';
+                arrowIcon.style.display = 'block';
+                setTimeout(() => {
+                    mouseIcon.style.opacity = '1';
+                    arrowIcon.style.opacity = '1';
+                }, 50); // Небольшая задержка для плавного появления
             }), appearDelay + welcomeMessage.length * typingDelay);
 
             // Убираем приветственное окно при прокрутке страницы
