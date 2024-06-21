@@ -68,6 +68,7 @@
             display: block;
             margin-bottom: 10px;
             font-size: 18px;
+            color: black; /* Изменение цвета текста на черный */
         }
 
         input[type="text"] {
@@ -79,7 +80,7 @@
             backdrop-filter: blur(5px);
             box-sizing: border-box;
             margin-bottom: 10px;
-            color: black;
+            color: black; /* Изменение цвета текста на черный */
         }
 
         button {
@@ -98,7 +99,7 @@
         }
 
         input[type="text"]::placeholder {
-            color: rgba(0, 0, 0, 0.7);
+            color: rgba(0, 0, 0, 0.7); /* Изменение цвета placeholder на черный (полупрозрачный) */
         }
 
         .nav-buttons {
@@ -116,7 +117,7 @@
             border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             backdrop-filter: blur(5px);
-            color: white;
+            color: black; /* Изменение цвета текста на черный */
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s ease, border-color 0.3s ease;
@@ -169,12 +170,9 @@
             // Автоматически воспроизводим звук при открытии страницы
             sound.play();
 
-            // Показываем форму при нажатии на любую кнопку навигации
-            const navButtons = document.querySelectorAll('.nav-button');
-            navButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    document.getElementById('form-container').style.display = 'block';
-                });
+            // Показываем форму только при нажатии на кнопку "Аккаунт"
+            document.getElementById('account-button').addEventListener('click', () => {
+                document.getElementById('form-container').style.display = 'block';
             });
         });
     </script>
