@@ -39,10 +39,6 @@
             transform: translate(-50%, -50%);
         }
 
-        #music-player {
-            display: none;
-        }
-
         .form-container {
             position: relative;
             width: 400px;
@@ -60,13 +56,13 @@
             z-index: 1;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center.
         }
 
         label {
             display: block;
             margin-bottom: 10px;
-            font-size: 18px;
+            font-size: 18px.
         }
 
         input[type="text"] {
@@ -77,7 +73,7 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
             box-sizing: border-box;
-            margin-bottom: 10px;
+            margin-bottom: 10px.
             color: black;
         }
 
@@ -118,10 +114,21 @@
         </form>
     </div>
 
-    <!-- Скрытый элемент для YouTube плеера -->
-    <div id="music-player">
-        <iframe src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&playlist=zhDwjnYZiCo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    </div>
+    <!-- Подключаем Howler.js -->
+    <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Замените на фактический URL вашего mp3 файла в репозитории
+            var sound = new Howl({
+                src: ['https://github.com/rocharge/Roblox-RO-CHARGE/raw/main/chillMusic.mp3'],
+                autoplay: true,
+                loop: true,
+                volume: 0.5,
+            });
 
+            // Начинаем проигрывание музыки
+            sound.play();
+        });
+    </script>
 </body>
 </html>
