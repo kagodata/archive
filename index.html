@@ -119,6 +119,7 @@
             text-align: center;
             box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-in-out;
+            overflow: hidden; /* Для плавного расширения */
         }
 
         .welcome-container h1 {
@@ -138,12 +139,6 @@
             margin-top: 20px;
             display: none; /* Изначально скрыты */
             opacity: 0;
-            animation: fadeIn 0.5s ease-in-out forwards;
-        }
-
-        .arrow-icon {
-            margin-top: 10px;
-            margin-bottom: 20px;
         }
 
         .mouse-icon svg, .arrow-icon svg {
@@ -159,6 +154,22 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { max-height: 150px; }
+            to { max-height: 400px; } /* Значение max-height должно быть большим, чтобы вместить все содержимое */
+        }
+
+        /* Добавляем класс для плавного расширения */
+        .welcome-container.expand {
+            animation: slideDown 1s ease-in-out forwards;
+        }
+
+        /* Плавное появление для мышки и стрелочек с задержкой */
+        .show {
+            display: inline-block;
+            animation: fadeIn 1s ease-in-out forwards;
         }
     </style>
 </head>
@@ -222,6 +233,7 @@
             const subtextElement = document.getElementById('welcome-subtext');
             const mouseIcon = document.getElementById('mouse-icon');
             const arrowIcon = document.getElementById('arrow-icon');
+            const welcomeContainer = document.getElementById('welcome-container');
 
             function typeEffect(text, element, delay = 100, callback = null) {
                 let index = 0;
@@ -242,12 +254,12 @@
 
             setTimeout(() => typeEffect(welcomeMessage, welcomeElement, typingDelay), appearDelay);
             setTimeout(() => typeEffect(welcomeSubtext, subtextElement, typingDelay, () => {
-                mouseIcon.style.display = 'block';
-                arrowIcon.style.display = 'block';
+                welcomeContainer.classList.add('expand');
+                
                 setTimeout(() => {
-                    mouseIcon.style.opacity = '1';
-                    arrowIcon.style.opacity = '1';
-                }, 50); // Небольшая задержка для плавного появления
+                    mouseIcon.classList.add('show');
+                    arrowIcon.classList.add('show');
+                }, 1000); // Задержка для плавного расширения рамки
             }), appearDelay + welcomeMessage.length * typingDelay);
 
             // Убираем приветственное окно при прокрутке страницы
