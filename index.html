@@ -40,7 +40,7 @@
         }
 
         #music-player {
-            display: none; /* Скрываем аудиоплеер */
+            display: none;
         }
 
         .form-container {
@@ -118,39 +118,10 @@
         </form>
     </div>
 
-    <!-- Добавим YouTube IFrame API -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('music-player', {
-                height: '0',
-                width: '0',
-                videoId: 'zhDwjnYZiCo', // ID вашего видео на YouTube
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                },
-                playerVars: {
-                    'autoplay': 1,
-                    'loop': 1,
-                    'playlist': 'zhDwjnYZiCo'
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            event.target.playVideo();
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.ENDED) {
-                player.playVideo();
-            }
-        }
-    </script>
-
     <!-- Скрытый элемент для YouTube плеера -->
-    <div id="music-player"></div>
+    <div id="music-player">
+        <iframe src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&playlist=zhDwjnYZiCo" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
 </body>
 </html>
