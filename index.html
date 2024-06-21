@@ -5,22 +5,38 @@
     <title>Roblox RO-CHARGE</title>
     <style>
         body {
-            margin: 40px 0;
+            margin: 0;
             font-family: "Raleway", sans-serif;
             font-size: 14px;
             font-weight: 500;
             background-color: #BCAAA4;
-            background-image: url('https://github.com/rocharge/Roblox-RO-CHARGE/raw/main/wallpaperflare.com_wallpaper(12).jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed; /* Фон будет фиксирован при прокрутке */
             -webkit-font-smoothing: antialiased;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            perspective: 1000px;
-            margin: 0; /* Удаляем внешние отступы */
+            overflow: hidden; /* Обрезаем все, что выходит за пределы контейнера */
+            position: relative;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none; /* Отключение событий мыши для ифрейма */
+        }
+
+        .video-background iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            transform: translate(-50%, -50%);
         }
 
         .form-container {
@@ -33,20 +49,6 @@
             box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset white 0 0 0 6px;
             transition: transform 0.2s ease;
             overflow: hidden;
-        }
-
-        .form-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('');
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px);
-            transition: transform 0.2s ease;
         }
 
         form {
@@ -96,6 +98,10 @@
     </style>
 </head>
 <body>
+    <div class="video-background">
+        <iframe src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&mute=1&playlist=zhDwjnYZiCo&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+
     <div class="form-container" id="form-container">
         <form id="form">
             <label for="username">Enter your Roblox account name:</label>
@@ -107,27 +113,5 @@
             <button type="submit">Submit</button>
         </form>
     </div>
-
-    <script>
-        const formContainer = document.getElementById('form-container');
-
-        formContainer.addEventListener('mousemove', (e) => {
-            const { width, height } = formContainer.getBoundingClientRect();
-            const { offsetX, offsetY } = e;
-            const rotateX = ((offsetY / height) - 0.5) * -10; // Используем отрицательные значения для смещения от курсора
-            const rotateY = ((offsetX / width) - 0.5) * 10;
-            formContainer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-
-            // Параллакс-эффект для изображения
-            const parallaxX = ((offsetX / width) - 0.5) * 20;
-            const parallaxY = ((offsetY / height) - 0.5) * 20;
-            formContainer.querySelector('::before').style.transform = `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)`;
-        });
-
-        formContainer.addEventListener('mouseleave', () => {
-            formContainer.style.transform = 'rotateX(0) rotateY(0)';
-            formContainer.querySelector('::before').style.transform = 'translate(0, 0) scale(1)';
-        });
-    </script>
 </body>
 </html>
