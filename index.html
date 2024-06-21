@@ -101,46 +101,30 @@
             color: rgba(0, 0, 0, 0.7);
         }
 
-        #play-sound-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            z-index: 9999;
-        }
-
-        #play-sound-btn:hover {
-            background-color: #005bb5;
-        }
-
         .nav-buttons {
             position: absolute;
             top: 20px;
             left: 20px;
             display: flex;
-            gap: 10px;
+            gap: 20px;
+            transform: translateX(50px); /* Сдвигаем кнопки немного ближе к центру */
         }
 
         .nav-button {
             padding: 10px 20px;
             background-color: rgba(255, 255, 255, 0.1);
-            border: none;
+            border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 10px;
             backdrop-filter: blur(5px);
             color: white;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .nav-button:hover {
             background-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
@@ -168,8 +152,6 @@
         <button class="nav-button" id="account-button">Аккаунт</button>
     </div>
 
-    <button id="play-sound-btn">Включить звук</button>
-
     <!-- Подключаем Howler.js -->
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
     <script>
@@ -184,12 +166,10 @@
                 }
             });
 
-            document.getElementById('play-sound-btn').addEventListener('click', () => {
-                sound.play();
-                // Скрываем кнопку включения звука после начала воспроизведения
-                document.getElementById('play-sound-btn').style.display = 'none';
-            });
+            // Автоматически воспроизводим звук при открытии страницы
+            sound.play();
 
+            // Показываем форму при нажатии на любую кнопку навигации
             const navButtons = document.querySelectorAll('.nav-button');
             navButtons.forEach(button => {
                 button.addEventListener('click', () => {
