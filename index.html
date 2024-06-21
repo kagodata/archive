@@ -120,12 +120,13 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             var sound = new Howl({
                 src: ['https://raw.githubusercontent.com/rocharge/Roblox-RO-CHARGE/main/chillMusic.mp3'],
-                autoplay: true,
+                autoplay: false, // Отключаем автозапуск, чтобы начинать воспроизведение вручную
                 loop: true,
                 volume: 0.5,
+                onload: function() {
+                    sound.play(); // Начинаем воспроизведение после полной загрузки
+                }
             });
-
-            sound.play();
         });
     </script>
 </body>
