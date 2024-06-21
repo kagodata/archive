@@ -7,8 +7,8 @@
         body {
             margin: 0;
             font-family: "Raleway", sans-serif;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 16px; /* Увеличенный шрифт */
+            font-weight: 600; /* Сделаем шрифт более жирным */
             background-color: #BCAAA4;
             -webkit-font-smoothing: antialiased;
             display: flex;
@@ -68,6 +68,7 @@
             display: block;
             margin-bottom: 10px;
             font-size: 18px;
+            font-weight: 600; /* Сделаем шрифт более жирным */
             color: black; /* Изменение цвета текста на черный */
         }
 
@@ -81,6 +82,7 @@
             box-sizing: border-box;
             margin-bottom: 10px;
             color: black; /* Изменение цвета текста на черный */
+            font-weight: 600; /* Сделаем шрифт более жирным */
         }
 
         button {
@@ -92,6 +94,7 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            font-weight: 600; /* Сделаем шрифт более жирным */
         }
 
         button:hover {
@@ -100,32 +103,6 @@
 
         input[type="text"]::placeholder {
             color: rgba(0, 0, 0, 0.7); /* Изменение цвета placeholder на черный (полупрозрачный) */
-        }
-
-        .nav-buttons {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            display: flex;
-            gap: 20px;
-            transform: translateX(50px); /* Сдвигаем кнопки немного ближе к центру */
-        }
-
-        .nav-button {
-            padding: 10px 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            backdrop-filter: blur(5px);
-            color: black; /* Изменение цвета текста на черный */
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .nav-button:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.7);
         }
 
         .welcome-container {
@@ -146,12 +123,14 @@
 
         .welcome-container h1 {
             font-size: 32px;
+            font-weight: 600; /* Сделаем шрифт более жирным */
             color: black;
             margin: 0 0 20px 0;
         }
 
         .welcome-container p {
-            font-size: 16px;
+            font-size: 18px; /* Увеличенный шрифт */
+            font-weight: 600;
             color: black;
         }
 
@@ -179,16 +158,9 @@
         </form>
     </div>
 
-    <div class="nav-buttons">
-        <button class="nav-button" id="draw-button">Draw</button>
-        <button class="nav-button" id="schedule-button">Schedule</button>
-        <button class="nav-button" id="inventory-button">Inventory</button>
-        <button class="nav-button" id="account-button">Account</button>
-    </div>
-
     <div class="welcome-container" id="welcome-container">
-        <h1>Welcome to Roblox RO-CHARGE!</h1>
-        <p>To continue, please scroll down with your mouse wheel!</p>
+        <h1 id="welcome-message"></h1>
+        <p id="welcome-subtext"></p>
     </div>
 
     <!-- Подключаем Howler.js -->
@@ -208,20 +180,29 @@
             // Автоматически воспроизводим звук при открытии страницы
             sound.play();
 
-            const formContainer = document.getElementById('form-container');
+            const welcomeMessage = 'Welcome to Roblox RO-CHARGE!';
+            const welcomeSubtext = 'To continue, please scroll down with your mouse wheel.';
+            const welcomeElement = document.getElementById('welcome-message');
+            const subtextElement = document.getElementById('welcome-subtext');
 
-            // Показываем форму только при нажатии на кнопку "Account"
-            document.getElementById('account-button').addEventListener('click', () => {
-                formContainer.style.display = 'block';
-            });
+            function typeEffect(text, element, delay = 100) {
+                let index = 0;
+                const interval = setInterval(() => {
+                    if (index < text.length) {
+                        element.textContent += text[index];
+                        index++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, delay);
+            }
 
-            // Скрываем форму при нажатии на любую другую кнопку
-            const otherButtons = document.querySelectorAll('#draw-button, #schedule-button, #inventory-button');
-            otherButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    formContainer.style.display = 'none';
-                });
-            });
+            // Задержка выполнения эффектов в миллисекундах
+            const typingDelay = 100;
+            const appearDelay = 500;
+
+            setTimeout(() => typeEffect(welcomeMessage, welcomeElement, typingDelay), appearDelay);
+            setTimeout(() => typeEffect(welcomeSubtext, subtextElement, typingDelay), appearDelay + welcomeMessage.length * typingDelay);
 
             // Убираем приветственное окно при прокрутке страницы
             window.addEventListener('scroll', () => {
