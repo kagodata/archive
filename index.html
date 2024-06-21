@@ -98,8 +98,8 @@
     </style>
 </head>
 <body>
-    <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&mute=1&playlist=zhDwjnYZiCo&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <div class="video-background" id="video-background">
+        <iframe id="background-video" src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&mute=1&playlist=zhDwjnYZiCo&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
     <div class="form-container" id="form-container">
@@ -113,5 +113,22 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+
+    <!-- Подключаем Howler.js -->
+    <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Создаем новый инстанс Howl с lofi музыкой
+            var sound = new Howl({
+                src: ['https://YOUR_LOFI_MUSIC_URL_HERE.mp3'],
+                autoplay: true,
+                loop: true,
+                volume: 0.5,
+            });
+
+            // Начинаем проигрывание музыки
+            sound.play();
+        });
+    </script>
 </body>
 </html>
