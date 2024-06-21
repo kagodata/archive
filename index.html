@@ -95,6 +95,8 @@
             font-size: 16px;
             cursor: pointer;
             font-weight: 600; /* Сделаем шрифт более жирным */
+            margin-bottom: 10px; /* Добавляем отступ между кнопками */
+            transition: opacity 0.5s ease;
         }
 
         button:hover {
@@ -120,6 +122,7 @@
             box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-in-out;
             overflow: hidden; /* Для плавного расширения */
+            transition: transform 0.5s ease, opacity 0.5s ease; /* Переход для плавного исчезновения */
         }
 
         .welcome-container h1 {
@@ -181,6 +184,32 @@
             display: inline-block;
             animation: fadeIn 1s ease-in-out forwards;
         }
+
+        /* Класс появления кнопок */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 60%;
+            width: 100%;
+            gap: 15px;
+            display: none; /* Начально скрыты */
+            text-align: center;
+        }
+
+        .button-container.show {
+            animation: fadeIn 1s ease-in-out forwards;
+            display: block; /* Показ при добавлении класса show */
+        }
+
+        .blur-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset white 0 0 0 6px;
+        }
     </style>
 </head>
 <body>
@@ -208,7 +237,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                 <rect x="16" y="2" width="32" height="60" rx="16" ry="16" fill="none" stroke="black" stroke-width="2" />
                 <rect x="28" y="4" width="8" height="12" rx="4" ry="4" fill="black" />
-                <line x1="32" y1="16" x2="32" y1="26" stroke="black" stroke-width="2" />
+                <line x1="32" y1="16" x2="32" y2="26" stroke="black" stroke-width="2" />
             </svg>
             <div class="arrow-icon" id="arrow-icon">
                 <!-- SVG иконка стрелок вниз -->
@@ -217,6 +246,21 @@
                     <path fill="black" d="M32 62.5l24-24-6-6L32 50.5 14 32.5 8 38.5z"/>
                 </svg>
             </div>
+        </div>
+    </div>
+
+    <div class="button-container" id="button-container">
+        <div class="blur-box">
+            <button id="account">Account</button>
+        </div>
+        <div class="blur-box">
+            <button id="inventory">Inventory</button>
+        </div>
+        <div class="blur-box">
+            <button id="giveaway">Giveaway</button>
+        </div>
+        <div class="blur-box">
+            <button id="schedule">Schedule</button>
         </div>
     </div>
 
@@ -244,6 +288,7 @@
             const mouseIcon = document.getElementById('mouse-icon');
             const arrowIcon = document.getElementById('arrow-icon');
             const welcomeContainer = document.getElementById('welcome-container');
+            const buttonContainer = document.getElementById('button-container');
 
             function typeEffect(text, element, delay = 50, callback = null) {
                 let index = 0;
@@ -274,7 +319,13 @@
 
             // Убираем приветственное окно при прокрутке страницы
             window.addEventListener('scroll', () => {
-                document.getElementById('welcome-container').style.display = 'none';
+                welcomeContainer.style.transform = 'translate(-50%, -150%)'; // Поднимаем окно вверх
+                welcomeContainer.style.opacity = '0'; // Плавно исчезаем окно
+
+                setTimeout(() => {
+                    welcomeContainer.style.display = 'none'; // Полностью убираем окно после анимации
+                    buttonContainer.classList.add('show'); // Появляются кнопки
+                }, 500); // Время исчезновения совпадает с transition
             });
         });
     </script>
