@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Roblox RO-CHARGE</title>
@@ -127,6 +127,39 @@
             background-color: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.7);
         }
+
+        .welcome-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .welcome-container h1 {
+            font-size: 32px;
+            color: black;
+            margin: 0 0 20px 0;
+        }
+
+        .welcome-container p {
+            font-size: 16px;
+            color: black;
+        }
+
+        /* Анимация плавного появления */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -147,10 +180,15 @@
     </div>
 
     <div class="nav-buttons">
-        <button class="nav-button" id="draw-button">Розыгрыш</button>
-        <button class="nav-button" id="schedule-button">Расписание</button>
-        <button class="nav-button" id="inventory-button">Инвентарь</button>
-        <button class="nav-button" id="account-button">Аккаунт</button>
+        <button class="nav-button" id="draw-button">Draw</button>
+        <button class="nav-button" id="schedule-button">Schedule</button>
+        <button class="nav-button" id="inventory-button">Inventory</button>
+        <button class="nav-button" id="account-button">Account</button>
+    </div>
+
+    <div class="welcome-container" id="welcome-container">
+        <h1>Welcome to Roblox RO-CHARGE!</h1>
+        <p>To continue, please scroll down with your mouse wheel!</p>
     </div>
 
     <!-- Подключаем Howler.js -->
@@ -170,9 +208,24 @@
             // Автоматически воспроизводим звук при открытии страницы
             sound.play();
 
-            // Показываем форму только при нажатии на кнопку "Аккаунт"
+            const formContainer = document.getElementById('form-container');
+
+            // Показываем форму только при нажатии на кнопку "Account"
             document.getElementById('account-button').addEventListener('click', () => {
-                document.getElementById('form-container').style.display = 'block';
+                formContainer.style.display = 'block';
+            });
+
+            // Скрываем форму при нажатии на любую другую кнопку
+            const otherButtons = document.querySelectorAll('#draw-button, #schedule-button, #inventory-button');
+            otherButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    formContainer.style.display = 'none';
+                });
+            });
+
+            // Убираем приветственное окно при прокрутке страницы
+            window.addEventListener('scroll', () => {
+                document.getElementById('welcome-container').style.display = 'none';
             });
         });
     </script>
