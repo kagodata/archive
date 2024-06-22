@@ -11,22 +11,25 @@
             font-weight: 600;
             background-color: #BCAAA4;
             -webkit-font-smoothing: antialiased;
-            height: 200vh; /* Увеличиваем высоту страницы */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Обрезаем все, что выходит за пределы контейнера */
             position: relative;
-            overflow-x: hidden;
         }
-
+        
         .video-background {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
             z-index: -1;
-            pointer-events: none;
+            pointer-events: none; /* Отключение событий мыши для ифрейма */
         }
-
+        
         .video-background iframe {
             position: absolute;
             top: 50%;
@@ -35,7 +38,7 @@
             height: 120%;
             transform: translate(-50%, -50%);
         }
-
+        
         .form-container {
             position: relative;
             width: 400px;
@@ -47,11 +50,11 @@
             overflow: hidden;
             display: none;
         }
-
+        
         .form-container button#mainsubmit {
             margin-top: 20px;
         }
-
+        
         form {
             position: relative;
             z-index: 1;
@@ -59,7 +62,7 @@
             flex-direction: column;
             align-items: center;
         }
-
+        
         label {
             display: block;
             margin-bottom: 10px;
@@ -67,7 +70,7 @@
             font-weight: 600;
             color: black;
         }
-
+        
         input[type="text"] {
             width: 100%;
             padding: 10px;
@@ -80,7 +83,7 @@
             color: black;
             font-weight: 600;
         }
-
+        
         button {
             width: 100%;
             padding: 10px;
@@ -94,17 +97,17 @@
             margin-bottom: 10px;
             transition: opacity 0.5s ease;
         }
-
+        
         button:hover {
             background-color: #005bb5;
         }
-
+        
         input[type="text"]::placeholder {
             color: rgba(0, 0, 0, 0.7);
         }
-
-        .welcome-container {
-            position: fixed;
+        
+        .welcome-container, .button-container {
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -120,32 +123,32 @@
             overflow: hidden;
             transition: transform 0.5s ease, opacity 0.5s ease;
         }
-
+        
         .welcome-container h1 {
             font-size: 32px;
             font-weight: 600;
             color: black;
             margin: 0 0 20px 0;
         }
-
+        
         .welcome-container p {
             font-size: 18px;
             font-weight: 600;
             color: black;
         }
-
+        
         .mouse-icon {
             margin-top: 20px;
             display: none;
             opacity: 0;
             position: relative;
         }
-
+        
         .mouse-icon svg {
             width: 40px;
             height: 60px;
         }
-
+        
         .arrow-icon {
             display: none;
             opacity: 0;
@@ -154,51 +157,37 @@
             left: 50%;
             transform: translateX(-50%);
         }
-
+        
         .arrow-icon svg {
             width: 20px;
             height: 20px;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
+        
         @keyframes slideDown {
             from { max-height: 150px; }
             to { max-height: 400px; }
         }
-
+        
         .welcome-container.expand {
             animation: slideDown 1s ease-in-out forwards;
         }
-
+        
         .show {
             display: inline-block;
             animation: fadeIn 1s ease-in-out forwards;
         }
-
+        
         .button-container {
-            position: absolute;
-            top: 150%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
             display: none;
         }
-
-        .button-container.show {
-            animation: fadeIn 1s ease-in-out forwards;
-            display: block;
-        }
-
+        
         .blur-box {
+            margin: 10px 0;
             width: 100%;
             padding: 15px;
             background: rgba(255, 255, 255, 0.1);
@@ -213,7 +202,7 @@
     <div class="video-background" id="video-background">
         <iframe id="background-video" src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&mute=1&playlist=zhDwjnYZiCo&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
-
+    
     <div class="form-container" id="form-container">
         <form id="form">
             <label for="username">Enter your account name:</label>
@@ -225,7 +214,7 @@
             <button type="submit" id="mainsubmit">Submit</button>
         </form>
     </div>
-
+    
     <div class="welcome-container" id="welcome-container">
         <h1 id="welcome-message"></h1>
         <p id="welcome-subtext"></p>
@@ -243,7 +232,7 @@
             </div>
         </div>
     </div>
-
+    
     <div class="button-container" id="button-container">
         <div class="blur-box">
             <button id="account">...</button>
@@ -258,22 +247,18 @@
             <button id="schedule">...</button>
         </div>
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            var sound = new Howl({
+        document.addEventListener('DOMContentLoaded', () => {
+            const sound = new Howl({
                 src: ['https://raw.githubusercontent.com/rocharge/Roblox-RO-CHARGE/main/chillMusic.mp3'],
-                autoplay: false,
+                autoplay: true,
                 loop: true,
                 volume: 0.5,
-                onload: function() {
-                    console.log('Music loaded, waiting for user interaction to play.');
-                }
+                onload: () => console.log('Music loaded and playing.')
             });
-
-            sound.play();
-
+    
             const welcomeMessage = 'Welcome to Archive!';
             const welcomeSubtext = 'To continue, please scroll down.';
             const welcomeElement = document.getElementById('welcome-message');
@@ -282,8 +267,8 @@
             const arrowIcon = document.getElementById('arrow-icon');
             const welcomeContainer = document.getElementById('welcome-container');
             const buttonContainer = document.getElementById('button-container');
-
-            function typeEffect(text, element, delay = 50, callback = null) {
+    
+            const typeEffect = (text, element, delay = 50, callback = null) => {
                 let index = 0;
                 const interval = setInterval(() => {
                     if (index < text.length) {
@@ -294,31 +279,36 @@
                         if (callback) callback();
                     }
                 }, delay);
-            }
-
+            };
+    
             const typingDelay = 50;
             const appearDelay = 500;
-
+    
             setTimeout(() => typeEffect(welcomeMessage, welcomeElement, typingDelay), appearDelay);
             setTimeout(() => typeEffect(welcomeSubtext, subtextElement, typingDelay, () => {
                 welcomeContainer.classList.add('expand');
-
+    
                 setTimeout(() => {
                     mouseIcon.classList.add('show');
                     arrowIcon.classList.add('show');
                 }, 1000);
             }), appearDelay + welcomeMessage.length * typingDelay);
-
-            // Убираем приветственное окно при прокрутке страницы
-            window.addEventListener('scroll', () => {
-                welcomeContainer.style.transform = 'translate(-50%, -150%)'; 
+    
+            const hideWelcomeContainer = () => {
+                welcomeContainer.style.transform = 'translate(-50%, -150%)';
                 welcomeContainer.style.opacity = '0';
-
+    
                 setTimeout(() => {
-                    welcomeContainer.style.display = 'none'; 
-                    buttonContainer.classList.add('show'); 
+                    welcomeContainer.style.display = 'none';
+                    buttonContainer.style.display = 'block';
+                    buttonContainer.style.transform = 'translate(-50%, -50%)';
+                    buttonContainer.style.opacity = '1';
                 }, 500);
-            });
+            };
+    
+            window.addEventListener('scroll', hideWelcomeContainer);
+            window.addEventListener('touchmove', hideWelcomeContainer);
+            window.addEventListener('wheel', hideWelcomeContainer);
         });
     </script>
 </body>
