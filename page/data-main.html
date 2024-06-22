@@ -98,7 +98,7 @@
 
         .search-container {
             display: flex;
-            justify-content: center;
+            align-items: center;
             width: 100%;
             position: relative;
             margin-top: 20px; /* Подняли выше */
@@ -113,8 +113,8 @@
             font-size: 16px;
             font-weight: 600;
             box-sizing: border-box;
-            width: 80%;
-            max-width: 400px;
+            width: calc(100% - 220px); /* Расширили до кнопок */
+            margin-right: 20px;
         }
 
         .suggestions-container {
@@ -143,9 +143,8 @@
         .buttons-container {
             display: flex;
             justify-content: space-between;
-            width: 100%;
-            margin: 10px 0;
-            gap: 20px;
+            align-items: center;
+            width: auto;
         }
 
         .buttons-container button {
@@ -172,6 +171,7 @@
             overflow-y: auto;
             box-sizing: border-box;
             margin-top: 10px;
+            max-height: calc(100% - 100px); /* Увеличиваем высоту контейнера */
             flex-grow: 1;
         }
 
