@@ -104,8 +104,8 @@
             width: 100%;
             justify-content: center;
             margin-bottom: 20px;
-            margin-top: 20px;
-            position: relative; /* Добавлено для относительного позиционирования */
+            margin-top: 80px; /* Увеличенный отступ сверху */
+            position: relative;
         }
 
         .buttons-container button,
@@ -224,23 +224,21 @@
         }
 
         .suggestions-container {
+            display: none; /* Контейнер невидим, пока ничего не вводится */
             position: absolute;
-            top: 100%;
-            left: 0;
-            width: calc(100% - 40px);
+            width: calc(100% - 40px); /* Ширина совпадает с шириной поиска */
             max-height: 200px;
-            overflow-y: auto;
             background-color: rgba(255, 255, 255, 0.9);
             border: 1px solid #ccc;
             border-radius: 5px;
             z-index: 2;
+            overflow-y: auto;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .suggestion-item {
             padding: 10px;
             cursor: pointer;
-            border-bottom: 1px solid #eee;
         }
 
         .suggestion-item:hover {
@@ -263,10 +261,8 @@
     <div class="form-container" id="form-container">
         <div class="buttons-container">
             <button type="button" id="tag-archive">Tag Archive</button>
-            <div style="position:relative">
-                <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()">
-                <div id="suggestions-container" class="suggestions-container"></div>
-            </div>
+            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
+            <div id="suggestions-container" class="suggestions-container"></div>
             <button type="button" id="submit-tag">Submit Tag</button>
         </div>
 
@@ -335,7 +331,7 @@
         function loadTagContent() {
             const tag = document.getElementById('tag-input').value;
             if (tag) {
-                const url = `./tags/${tag}.html`; // Путь к файлу тега
+                const url = `./tags/${tag}.html`;
                 fetch(url)
                     .then(response => {
                         if (!response.ok) {
@@ -393,10 +389,12 @@
         function showSuggestions() {
             const input = document.getElementById('tag-input').value.toLowerCase();
             const suggestionsContainer = document.getElementById('suggestions-container');
-            suggestionsContainer.innerHTML = ''; // Очистка предыдущих подсказок
 
             if (input) {
+                suggestionsContainer.style.display = 'block';
                 const suggestions = allTags.filter(tag => tag.toLowerCase().startsWith(input));
+                suggestionsContainer.innerHTML = ''; // Очистка предыдущих подсказок
+
                 suggestions.forEach(suggestion => {
                     const suggestionItem = document.createElement('div');
                     suggestionItem.innerText = suggestion;
@@ -404,10 +402,20 @@
                     suggestionItem.addEventListener('click', () => {
                         document.getElementById('tag-input').value = suggestion;
                         suggestionsContainer.innerHTML = ''; // Очистка подсказок после выбора
+                        hideSuggestions();
                     });
                     suggestionsContainer.appendChild(suggestionItem);
                 });
+            } else {
+                hideSuggestions();
             }
+        }
+
+        function hideSuggestions() {
+            const suggestionsContainer = document.getElementById('suggestions-container');
+            setTimeout(() => {
+                suggestionsContainer.style.display = 'none';
+            }, 100); // Задержка чтобы успеть обработать клик
         }
 
         function loadTag(tag) {
