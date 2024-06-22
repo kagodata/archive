@@ -78,6 +78,7 @@
 
         .top-buttons-container button.active {
             background-color: rgba(0, 0, 0, 0.2);
+            position: relative; /* Добавлено */
         }
 
         .top-buttons-container button.active::after {
@@ -383,7 +384,7 @@
                 const files = await response.json();
                 const tagList = document.getElementById('tag-list');
                 tagList.innerHTML = ''; // Очистка предыдущего содержимого
-                
+
                 allTags = files
                     .filter(file => file.type === "file" && file.name.endsWith(".html"))
                     .map(file => file.name.replace('.html', ''));
