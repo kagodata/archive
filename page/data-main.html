@@ -97,6 +97,66 @@
             padding: 20px;
             overflow-y: auto;
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            overflow-y: auto;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tag-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tag-list li {
+            margin: 5px 0;
+        }
+
+        .tag-list li button {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #000;
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.5s ease, background-color 0.5s ease;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +176,17 @@
         </div>
     </div>
 
+    <!-- Модальное окно -->
+    <div id="tag-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="close-modal">&times;</span>
+            <h2>Архив тегов</h2>
+            <ul class="tag-list" id="tag-list">
+                <!-- Теги будут загружены сюда -->
+            </ul>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -128,7 +199,18 @@
             });
 
             document.getElementById('submit-tag').addEventListener('click', loadTagContent);
-            document.getElementById('tag-archive').addEventListener('click', loadArchiveContent);
+            document.getElementById('tag-archive').addEventListener('click', openTagModal);
+            document.getElementById('close-modal').addEventListener('click', closeTagModal);
+
+            // Закрытие модального окна при клике вне его
+            window.addEventListener('click', (event) => {
+                const modal = document.getElementById('tag-modal');
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            });
+
+            loadTagList();
         });
 
         function adjustInputWidth() {
@@ -173,6 +255,56 @@
                 .catch(error => {
                     console.error('Error loading archive content:', error);
                     document.getElementById('tag-content').innerHTML = '<p>Ошибка загрузки архива тегов</p>';
+                });
+        }
+
+        function openTagModal() {
+            document.getElementById('tag-modal').style.display = "block";
+        }
+
+        function closeTagModal() {
+            document.getElementById('tag-modal').style.display = "none";
+        }
+
+        async function loadTagList() {
+            const url = 'https://api.github.com/repos/kagodata/archive/contents/page/tags';
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const files = await response.json();
+                const tagList = document.getElementById('tag-list');
+                files.forEach(file => {
+                    if (file.type === "file" && file.name.endsWith(".html")) {
+                        const tagItem = document.createElement('li');
+                        const tagName = file.name.replace('.html', '');
+                        tagItem.innerHTML = `<button onclick="loadTag('${tagName}')">${tagName}</button>`;
+                        tagList.appendChild(tagItem);
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading tags:', error);
+                document.getElementById('tag-list').innerHTML = '<p>Ошибка загрузки списка тегов</p>';
+            }
+        }
+
+        function loadTag(tag) {
+            const url = `./tags/${tag}.html`;
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('tag-content').innerHTML = data;
+                    closeTagModal();
+                })
+                .catch(error => {
+                    console.error('Error loading tag content:', error);
+                    document.getElementById('tag-content').innerHTML = '<p>Ошибка загрузки содержимого тега</p>';
                 });
         }
     </script>
