@@ -41,7 +41,7 @@
 
         .form-container {
             position: relative;
-            width: calc(100vw - 100px); /* Увеличенные отступы от краев */
+            width: calc(100vw - 100px);
             height: calc(100vh - 100px);
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -50,6 +50,7 @@
             overflow: hidden;
             backdrop-filter: blur(10px);
             display: flex;
+            flex-direction: column;
             align-items: flex-start; /* Выравнивание контейнера в начале по вертикали */
         }
 
@@ -59,7 +60,7 @@
             gap: 20px;
             width: 100%;
             justify-content: center;
-            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .buttons-container button,
@@ -87,6 +88,15 @@
         .buttons-container input:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
+
+        .tag-content {
+            flex-grow: 1; /* Занимает все оставшееся пространство */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto; /* Скролл если контент выходит за пределы контейнера */
+        }
     </style>
 </head>
 <body>
@@ -101,8 +111,10 @@
             <button type="button" id="submit-tag">Ввести тег</button>
         </div>
 
-        <!-- Add any additional content here -->
-        
+        <div class="tag-content" id="tag-content">
+            <!-- Место для загружаемого содержимого тегов -->
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
@@ -115,12 +127,54 @@
                 volume: 0.5,
                 onload: () => console.log('Music loaded and playing.')
             });
+
+            document.getElementById('submit-tag').addEventListener('click', loadTagContent);
+            document.getElementById('tag-archive').addEventListener('click', loadArchiveContent);
         });
 
         function adjustInputWidth() {
             const input = document.getElementById('tag-input');
             input.style.width = 'auto';
-            input.style.width = (input.scrollWidth + 2) + 'px'; // Adjust width to content
+            input.style.width = (input.scrollWidth + 2) + 'px';
+        }
+
+        function loadTagContent() {
+            const tag = document.getElementById('tag-input').value;
+            if (tag) {
+                const url = `./tags/${tag}.html`; // Путь к файлу тега
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        document.getElementById('tag-content').innerHTML = data;
+                    })
+                    .catch(error => {
+                        console.error('Error loading tag content:', error);
+                        document.getElementById('tag-content').innerHTML = '<p>Ошибка загрузки содержимого тега</p>';
+                    });
+            }
+        }
+
+        function loadArchiveContent() {
+            const url = './tags/archive.html'; // Путь к архиву тегов
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('tag-content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading archive content:', error);
+                    document.getElementById('tag-content').innerHTML = '<p>Ошибка загрузки архива тегов</p>';
+                });
         }
     </script>
 </body>
