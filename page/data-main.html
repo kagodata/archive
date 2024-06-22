@@ -51,7 +51,7 @@
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
         }
 
         .top-buttons-container {
@@ -96,12 +96,14 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
+        .search-container,
+        button {
+            display: inline-block;
+            vertical-align: middle; /* Для центрирования по высоте */
+        }
+
         .search-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            justify-content: center;
-            margin-top: 20px; /* Подняли выше */
+            margin: 0 10px;
         }
 
         #tag-input {
@@ -113,8 +115,7 @@
             font-size: 16px;
             font-weight: 600;
             box-sizing: border-box;
-            width: 100%;
-            max-width: 400px;
+            width: 300px;
         }
 
         .suggestions-container {
@@ -144,8 +145,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 20px; /* Подняли вверх */
             width: 100%;
+            margin-top: 20px; /* Подняли вверх */
         }
 
         .buttons-container button {
@@ -159,6 +160,7 @@
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
             margin: 0 10px; /* Добавили отступы между кнопками и поисковой строкой */
+            white-space: nowrap; /* Чтобы текст оставался в одной строке */
         }
 
         .buttons-container button:hover {
