@@ -42,7 +42,7 @@
         .form-container {
             position: relative;
             width: calc(100vw - 100px);
-            height: calc(100vh - 180px);
+            height: calc(100vh - 140px);
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -104,7 +104,7 @@
             width: 100%;
             justify-content: center;
             margin-bottom: 20px;
-            margin-top: 20px; /* Уменьшили отступ сверху */
+            margin-top: 40px; /* подняли вверх */
             position: relative;
         }
 
@@ -124,9 +124,7 @@
 
         .buttons-container input {
             padding: 10px;
-            flex-grow: 1;
             min-width: 150px;
-            max-width: 100%;
         }
 
         .buttons-container button:hover,
@@ -142,7 +140,8 @@
             padding: 20px;
             overflow-y: auto;
             box-sizing: border-box;
-            margin-top: 20px; /* Уменьшили отступ сверху */
+            margin-top: 20px;
+            max-height: calc(100% - 180px);
         }
 
         .modal {
