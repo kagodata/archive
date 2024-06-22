@@ -145,9 +145,10 @@
         .buttons-container {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* Чтобы выровнять кнопки и поиск */
             width: 100%;
-            margin-top: 20px; /* Подняли вверх */
+            margin-top: auto;
+            margin-bottom: auto;
         }
 
         .buttons-container button {
@@ -175,7 +176,8 @@
             overflow-y: auto;
             box-sizing: border-box;
             margin-top: 10px;
-            max-height: calc(100% - 100px); /* Увеличиваем высоту контейнера */
+            margin-bottom: 10px; /* Отступ снизу */
+            max-height: calc(100% - 120px); /* Уменьшаем высоту контейнера */
             flex-grow: 1;
         }
 
@@ -272,7 +274,7 @@
     </div>
 
     <div class="form-container" id="form-container">
-        <div class="buttons-container">
+        <div class="buttons-container" style="margin-top: 20px;">
             <button type="button" id="tag-archive">Tag Archive</button>
             <div class="search-container">
                 <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
