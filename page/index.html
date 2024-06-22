@@ -7,27 +7,24 @@
         body {
             margin: 0;
             font-family: "Raleway", sans-serif;
-            font-size: 16px; /* Увеличенный шрифт */
-            font-weight: 600; /* Сделаем шрифт более жирным */
+            font-size: 16px;
+            font-weight: 600;
             background-color: #BCAAA4;
             -webkit-font-smoothing: antialiased;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden; /* Обрезаем все, что выходит за пределы контейнера */
+            height: 200vh; /* Увеличиваем высоту страницы */
             position: relative;
+            overflow-x: hidden;
         }
 
         .video-background {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
             overflow: hidden;
             z-index: -1;
-            pointer-events: none; /* Отключение событий мыши для ифрейма */
+            pointer-events: none;
         }
 
         .video-background iframe {
@@ -47,9 +44,8 @@
             border-radius: 10px;
             backdrop-filter: blur(10px);
             box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset white 0 0 0 6px;
-            transition: transform 0.2s ease;
             overflow: hidden;
-            display: none; /* Скрываем контейнер с формой */
+            display: none;
         }
 
         .form-container button#mainsubmit {
@@ -68,8 +64,8 @@
             display: block;
             margin-bottom: 10px;
             font-size: 18px;
-            font-weight: 600; /* Сделаем шрифт более жирным */
-            color: black; /* Изменение цвета текста на черный */
+            font-weight: 600;
+            color: black;
         }
 
         input[type="text"] {
@@ -81,8 +77,8 @@
             backdrop-filter: blur(5px);
             box-sizing: border-box;
             margin-bottom: 10px;
-            color: black; /* Изменение цвета текста на черный */
-            font-weight: 600; /* Сделаем шрифт более жирным */
+            color: black;
+            font-weight: 600;
         }
 
         button {
@@ -94,8 +90,8 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
-            font-weight: 600; /* Сделаем шрифт более жирным */
-            margin-bottom: 10px; /* Добавляем отступ между кнопками */
+            font-weight: 600;
+            margin-bottom: 10px;
             transition: opacity 0.5s ease;
         }
 
@@ -104,11 +100,11 @@
         }
 
         input[type="text"]::placeholder {
-            color: rgba(0, 0, 0, 0.7); /* Изменение цвета placeholder на черный (полупрозрачный) */
+            color: rgba(0, 0, 0, 0.7);
         }
 
         .welcome-container {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -121,26 +117,26 @@
             text-align: center;
             box-shadow: 0px 0px 60px 10px rgba(0, 0, 0, 0.2);
             animation: fadeIn 1s ease-in-out;
-            overflow: hidden; /* Для плавного расширения */
-            transition: transform 0.5s ease, opacity 0.5s ease; /* Переход для плавного исчезновения */
+            overflow: hidden;
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
 
         .welcome-container h1 {
             font-size: 32px;
-            font-weight: 600; /* Сделаем шрифт более жирным */
+            font-weight: 600;
             color: black;
             margin: 0 0 20px 0;
         }
 
         .welcome-container p {
-            font-size: 18px; /* Увеличенный шрифт */
+            font-size: 18px;
             font-weight: 600;
             color: black;
         }
 
         .mouse-icon {
             margin-top: 20px;
-            display: none; /* Изначально скрыты */
+            display: none;
             opacity: 0;
             position: relative;
         }
@@ -151,10 +147,10 @@
         }
 
         .arrow-icon {
-            display: none; /* Изначально скрыты */
+            display: none;
             opacity: 0;
             position: absolute;
-            top: 70px; /* Смещение вниз относительно мышки */
+            top: 70px;
             left: 50%;
             transform: translateX(-50%);
         }
@@ -171,44 +167,45 @@
 
         @keyframes slideDown {
             from { max-height: 150px; }
-            to { max-height: 400px; } /* Значение max-height должно быть большим, чтобы вместить все содержимое */
+            to { max-height: 400px; }
         }
 
-        /* Добавляем класс для плавного расширения */
         .welcome-container.expand {
             animation: slideDown 1s ease-in-out forwards;
         }
 
-        /* Плавное появление для мышки и стрелочек с задержкой */
         .show {
             display: inline-block;
             animation: fadeIn 1s ease-in-out forwards;
         }
 
-        /* Класс появления кнопок */
         .button-container {
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: absolute;
-            top: 60%;
-            width: 100%;
             gap: 15px;
-            display: none; /* Начально скрыты */
-            text-align: center;
+            display: none;
         }
 
         .button-container.show {
             animation: fadeIn 1s ease-in-out forwards;
-            display: block; /* Показ при добавлении класса show */
+            display: block;
         }
 
         .blur-box {
+            width: 100%;
+            padding: 15px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 10px;
-            padding: 10px;
-            box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px, inset white 0 0 0 6px;
+            box-shadow: rgba(255, 255, 255, 0.2) 0 0 40px 5px, white 0 0 0 1px, rgba(0, 0, 0, 0.66) 0 30px 60px 0;
+            text-align: center;
         }
     </style>
 </head>
@@ -233,14 +230,12 @@
         <h1 id="welcome-message"></h1>
         <p id="welcome-subtext"></p>
         <div class="mouse-icon" id="mouse-icon">
-            <!-- SVG иконка мыши с выделенным колесиком -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                 <rect x="16" y="2" width="32" height="60" rx="16" ry="16" fill="none" stroke="black" stroke-width="2" />
                 <rect x="28" y="4" width="8" height="12" rx="4" ry="4" fill="black" />
                 <line x1="32" y1="16" x2="32" y2="26" stroke="black" stroke-width="2" />
             </svg>
             <div class="arrow-icon" id="arrow-icon">
-                <!-- SVG иконка стрелок вниз -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                     <path fill="black" d="M32 46.5l24-24-6-6L32 34.5 14 16.5 8 22.5z"/>
                     <path fill="black" d="M32 62.5l24-24-6-6L32 50.5 14 32.5 8 38.5z"/>
@@ -264,7 +259,6 @@
         </div>
     </div>
 
-    <!-- Подключаем Howler.js -->
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -278,7 +272,6 @@
                 }
             });
 
-            // Автоматически воспроизводим звук при открытии страницы
             sound.play();
 
             const welcomeMessage = 'Welcome to Archive!';
@@ -303,29 +296,28 @@
                 }, delay);
             }
 
-            // Задержка выполнения эффектов в миллисекундах
             const typingDelay = 50;
             const appearDelay = 500;
 
             setTimeout(() => typeEffect(welcomeMessage, welcomeElement, typingDelay), appearDelay);
             setTimeout(() => typeEffect(welcomeSubtext, subtextElement, typingDelay, () => {
                 welcomeContainer.classList.add('expand');
-                
+
                 setTimeout(() => {
                     mouseIcon.classList.add('show');
                     arrowIcon.classList.add('show');
-                }, 1000); // Задержка для плавного расширения рамки
+                }, 1000);
             }), appearDelay + welcomeMessage.length * typingDelay);
 
             // Убираем приветственное окно при прокрутке страницы
             window.addEventListener('scroll', () => {
-                welcomeContainer.style.transform = 'translate(-50%, -150%)'; // Поднимаем окно вверх
-                welcomeContainer.style.opacity = '0'; // Плавно исчезаем окно
+                welcomeContainer.style.transform = 'translate(-50%, -150%)'; 
+                welcomeContainer.style.opacity = '0';
 
                 setTimeout(() => {
-                    welcomeContainer.style.display = 'none'; // Полностью убираем окно после анимации
-                    buttonContainer.classList.add('show'); // Появляются кнопки
-                }, 500); // Время исчезновения совпадает с transition
+                    welcomeContainer.style.display = 'none'; 
+                    buttonContainer.classList.add('show'); 
+                }, 500);
             });
         });
     </script>
