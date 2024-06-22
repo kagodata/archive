@@ -103,6 +103,7 @@
         }
 
         .search-container {
+            flex-grow: 1; /* Увеличит ширину */
             margin: 0 10px;
         }
 
@@ -115,7 +116,7 @@
             font-size: 16px;
             font-weight: 600;
             box-sizing: border-box;
-            width: 300px;
+            width: 100%; /* Поле ввода займет доступное место */
         }
 
         .suggestions-container {
@@ -159,7 +160,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
-            margin: 0 10px; /* Добавили отступы между кнопками и поисковой строкой */
             white-space: nowrap; /* Чтобы текст оставался в одной строке */
         }
 
