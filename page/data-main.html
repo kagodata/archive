@@ -74,7 +74,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
-            position: relative;
         }
 
         .top-buttons-container button.active {
@@ -97,20 +96,60 @@
             background-color: rgba(255, 255, 255, 0.3);
         }
 
-        .buttons-container {
+        .search-container {
             display: flex;
-            align-items: center;
-            gap: 20px;
-            width: 100%;
             justify-content: center;
-            margin-bottom: 20px;
-            margin-top: 80px; /* Вернули к исходному положению */
+            width: 100%;
             position: relative;
+            margin-top: 20px; /* Подняли выше */
         }
 
-        .buttons-container button,
-        .buttons-container input {
-            padding: 10px 20px;
+        #tag-input {
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #000;
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            box-sizing: border-box;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .suggestions-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 2;
+            overflow-y: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin: 10px 0;
+            gap: 20px;
+        }
+
+        .buttons-container button {
+            padding: 10px;
             border-radius: 10px;
             border: 2px solid #000;
             background: rgba(255, 255, 255, 0.2);
@@ -119,30 +158,21 @@
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
-            box-sizing: border-box;
         }
 
-        .buttons-container input {
-            padding: 10px;
-            flex-grow: 1;
-            min-width: 150px;
-            max-width: 100%;
-        }
-
-        .buttons-container button:hover,
-        .buttons-container input:hover {
+        .buttons-container button:hover {
             background-color: rgba(255, 255, 255, 0.3);
         }
 
         .tag-content {
-            flex-grow: 1;
             width: 100%;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
             padding: 20px;
             overflow-y: auto;
             box-sizing: border-box;
-            max-height: calc(100% - 80px); /* Расширили контейнер для результатов */
+            margin-top: 10px;
+            flex-grow: 1;
         }
 
         .modal {
@@ -223,29 +253,6 @@
         .search-input::placeholder {
             color: #999;
         }
-
-        .suggestions-container {
-            display: none; /* Контейнер невидим, пока ничего не вводится */
-            position: absolute;
-            top: 100%; /* Располагаем подсказки под строкой ввода */
-            left: 0;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            z-index: 2;
-            overflow-y: auto;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .suggestion-item {
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        .suggestion-item:hover {
-            background-color: rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>
@@ -261,15 +268,14 @@
     </div>
 
     <div class="form-container" id="form-container">
+        <div class="search-container">
+            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
+            <div id="suggestions-container" class="suggestions-container"></div>
+        </div>
         <div class="buttons-container">
             <button type="button" id="tag-archive">Tag Archive</button>
-            <div style="position:relative; width: 100%;">
-                <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
-                <div id="suggestions-container" class="suggestions-container"></div>
-            </div>
             <button type="button" id="submit-tag">Submit Tag</button>
         </div>
-
         <div class="tag-content" id="tag-content">
             <!-- Placeholder for loaded tag content -->
         </div>
