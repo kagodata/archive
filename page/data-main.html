@@ -71,6 +71,7 @@
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
             box-sizing: border-box;
+            height: 46px; /* Установить одинаковую высоту */
         }
 
         .buttons-container button:hover,
@@ -83,10 +84,6 @@
             flex-grow: 1;
             min-width: 150px; /* Минимальная ширина поля для ввода */
         }
-
-        button {
-            margin-bottom: 20px; /* Увеличено расстояние между кнопками */
-        }
     </style>
 </head>
 <body>
@@ -96,9 +93,9 @@
 
     <div class="form-container" id="form-container">
         <div class="buttons-container">
-            <button type="button" id="tag-archive">Архив тегов</button>
-            <input id="tag-input" type="text" name="tag" placeholder="Введите тег" required oninput="adjustInputWidth()">
-            <button type="button" id="submit-tag">Ввести тег</button>
+            <button type="button" id="tag-archive">Tag Archive</button>
+            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="adjustInputWidth()">
+            <button type="button" id="submit-tag">Submit Tag</button>
         </div>
 
         <!-- Add any additional content here -->
