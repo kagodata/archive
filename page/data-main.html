@@ -42,7 +42,7 @@
         .form-container {
             position: relative;
             width: calc(100vw - 100px);
-            height: calc(100vh - 180px); /* Уменьшили высоту контейнера, чтобы освободить место для кнопок */
+            height: calc(100vh - 180px);
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -78,7 +78,7 @@
         }
 
         .top-buttons-container button.active {
-            background-color: rgba(0, 0, 0, 0.2); /* Немного темнее, чтобы показать активное состояние */
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
         .top-buttons-container button.active::after {
@@ -104,7 +104,8 @@
             width: 100%;
             justify-content: center;
             margin-bottom: 20px;
-            margin-top: 80px; /* Увеличенный отступ сверху */
+            margin-top: 80px;
+            position: relative; /* Добавлено для относительного позиционирования */
         }
 
         .buttons-container button,
@@ -221,6 +222,30 @@
         .search-input::placeholder {
             color: #999;
         }
+
+        .suggestions-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .suggestion-item:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -238,7 +263,10 @@
     <div class="form-container" id="form-container">
         <div class="buttons-container">
             <button type="button" id="tag-archive">Tag Archive</button>
-            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="adjustInputWidth()">
+            <div style="position:relative">
+                <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()">
+                <div id="suggestions-container" class="suggestions-container"></div>
+            </div>
             <button type="button" id="submit-tag">Submit Tag</button>
         </div>
 
@@ -263,6 +291,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
     <script>
+        let allTags = []; // Для хранения всех тегов
+
         document.addEventListener('DOMContentLoaded', () => {
             const sound = new Howl({
                 src: ['https://raw.githubusercontent.com/rocharge/Roblox-RO-CHARGE/main/chillMusic.mp3'],
@@ -288,11 +318,12 @@
 
             document.getElementById('search-input').addEventListener('input', filterTags);
 
+            // Load initial tag list
             loadTagList();
         });
 
         function resetPage() {
-            location.reload(); // Перезагрузка страницы при нажатии кнопки Data
+            location.reload();
         }
 
         function adjustInputWidth() {
@@ -340,18 +371,42 @@
                 const files = await response.json();
                 const tagList = document.getElementById('tag-list');
                 tagList.innerHTML = ''; // Очистка предыдущего содержимого
-                files.forEach(file => {
-                    if (file.type === "file" && file.name.endsWith(".html")) {
-                        const tagItem = document.createElement('li');
-                        const tagName = file.name.replace('.html', '');
-                        tagItem.innerHTML = `<button onclick="loadTag('${tagName}')">${tagName}</button>`;
-                        tagItem.setAttribute('data-tag-name', tagName);
-                        tagList.appendChild(tagItem);
-                    }
+                
+                allTags = files
+                    .filter(file => file.type === "file" && file.name.endsWith(".html"))
+                    .map(file => file.name.replace('.html', ''));
+
+                // Populate the list in the modal
+                allTags.forEach(tagName => {
+                    const tagItem = document.createElement('li');
+                    tagItem.innerHTML = `<button onclick="loadTag('${tagName}')">${tagName}</button>`;
+                    tagItem.setAttribute('data-tag-name', tagName);
+                    tagList.appendChild(tagItem);
                 });
+
             } catch (error) {
                 console.error('Error loading tags:', error);
                 document.getElementById('tag-list').innerHTML = '<p>Error loading tag list</p>';
+            }
+        }
+
+        function showSuggestions() {
+            const input = document.getElementById('tag-input').value.toLowerCase();
+            const suggestionsContainer = document.getElementById('suggestions-container');
+            suggestionsContainer.innerHTML = ''; // Очистка предыдущих подсказок
+
+            if (input) {
+                const suggestions = allTags.filter(tag => tag.toLowerCase().startsWith(input));
+                suggestions.forEach(suggestion => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.innerText = suggestion;
+                    suggestionItem.classList.add('suggestion-item');
+                    suggestionItem.addEventListener('click', () => {
+                        document.getElementById('tag-input').value = suggestion;
+                        suggestionsContainer.innerHTML = ''; // Очистка подсказок после выбора
+                    });
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
             }
         }
 
