@@ -100,7 +100,7 @@
             display: flex;
             align-items: center;
             width: 100%;
-            position: relative;
+            justify-content: center;
             margin-top: 20px; /* Подняли выше */
         }
 
@@ -113,8 +113,8 @@
             font-size: 16px;
             font-weight: 600;
             box-sizing: border-box;
-            width: calc(100% - 220px); /* Расширили до кнопок */
-            margin-right: 20px;
+            width: 100%;
+            max-width: 400px;
         }
 
         .suggestions-container {
@@ -142,9 +142,10 @@
 
         .buttons-container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            width: auto;
+            margin-top: 20px; /* Подняли вверх */
+            width: 100%;
         }
 
         .buttons-container button {
@@ -157,6 +158,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.5s ease, background-color 0.5s ease;
+            margin: 0 10px; /* Добавили отступы между кнопками и поисковой строкой */
         }
 
         .buttons-container button:hover {
@@ -268,12 +270,12 @@
     </div>
 
     <div class="form-container" id="form-container">
-        <div class="search-container">
-            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
-            <div id="suggestions-container" class="suggestions-container"></div>
-        </div>
         <div class="buttons-container">
             <button type="button" id="tag-archive">Tag Archive</button>
+            <div class="search-container">
+                <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="showSuggestions()" onfocus="showSuggestions()" onblur="hideSuggestions()">
+                <div id="suggestions-container" class="suggestions-container"></div>
+            </div>
             <button type="button" id="submit-tag">Submit Tag</button>
         </div>
         <div class="tag-content" id="tag-content">
