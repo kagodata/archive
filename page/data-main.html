@@ -41,7 +41,7 @@
 
         .form-container {
             position: relative;
-            width: calc(100vw - 100px); /* Увеличенные отступы от краев */
+            width: calc(100vw - 100px); /* Increased offsets */
             height: calc(100vh - 100px);
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -72,6 +72,7 @@
             transition: opacity 0.5s ease, background-color 0.5s ease;
             box-sizing: border-box;
             height: 46px; /* Установить одинаковую высоту */
+            margin-bottom: 0; /* Для удаления нижнего отступа */
         }
 
         .buttons-container button:hover,
@@ -117,7 +118,7 @@
         function adjustInputWidth() {
             const input = document.getElementById('tag-input');
             input.style.width = 'auto';
-            input.style.width = (input.scrollWidth + 2) + 'px';  // Adjust width to content
+            input.style.width = (input.scrollWidth + 2) + 'px'; // Adjust width to content
         }
     </script>
 </body>
