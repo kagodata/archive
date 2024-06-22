@@ -51,7 +51,7 @@
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Выравнивание контейнера в начале по вертикали */
+            align-items: flex-start;
         }
 
         .buttons-container {
@@ -81,7 +81,7 @@
             padding: 10px;
             flex-grow: 1;
             min-width: 150px;
-            max-width: 100%; /* Чтобы поле ввода не выходило за границы контейнера */
+            max-width: 100%;
         }
 
         .buttons-container button:hover,
@@ -90,12 +90,12 @@
         }
 
         .tag-content {
-            flex-grow: 1; /* Занимает все оставшееся пространство */
+            flex-grow: 1;
             width: 100%;
             background: rgba(255, 255, 255, 0.15);
             border-radius: 10px;
             padding: 20px;
-            overflow-y: auto; /* Скролл если контент выходит за пределы контейнера */
+            overflow-y: auto;
         }
     </style>
 </head>
@@ -114,7 +114,6 @@
         <div class="tag-content" id="tag-content">
             <!-- Место для загружаемого содержимого тегов -->
         </div>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
