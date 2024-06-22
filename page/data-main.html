@@ -41,7 +41,7 @@
 
         .form-container {
             position: relative;
-            width: calc(100vw - 100px); /* Отступы от краев */
+            width: calc(100vw - 100px); /* Увеличенные отступы от краев */
             height: calc(100vh - 100px);
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
@@ -53,23 +53,14 @@
 
         .buttons-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .button-row {
-            display: flex;
-            align-items: center;
-            gap: 20px;
             flex-wrap: wrap;
-            width: 100%;
             justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .buttons-container button,
         .buttons-container input {
-            height: 46px; /* Высота, равная кнопкам */
             padding: 10px 20px;
             border-radius: 10px;
             border: 2px solid #000;
@@ -82,15 +73,15 @@
             box-sizing: border-box;
         }
 
-        .button-row input {
-            flex-grow: 1;
-            min-width: 150px;
-            max-width: calc(100% - 40px); /* Поле ввода не выходит за границы контейнера */
-        }
-
         .buttons-container button:hover,
         .buttons-container input:hover {
             background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .buttons-container input {
+            padding: 10px;
+            flex-grow: 1;
+            min-width: 150px; /* Минимальная ширина поля для ввода */
         }
 
         button {
@@ -104,11 +95,14 @@
     </div>
 
     <div class="form-container" id="form-container">
-        <div class="button-row">
-            <button type="button" id="tag-archive">Tag Archive</button>
-            <input id="tag-input" type="text" name="tag" placeholder="Enter tag" required oninput="adjustInputWidth()">
-            <button type="button" id="submit-tag">Submit Tag</button>
+        <div class="buttons-container">
+            <button type="button" id="tag-archive">Архив тегов</button>
+            <input id="tag-input" type="text" name="tag" placeholder="Введите тег" required oninput="adjustInputWidth()">
+            <button type="button" id="submit-tag">Ввести тег</button>
         </div>
+
+        <!-- Add any additional content here -->
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/howler/dist/howler.min.js"></script>
@@ -126,7 +120,7 @@
         function adjustInputWidth() {
             const input = document.getElementById('tag-input');
             input.style.width = 'auto';
-            input.style.width = (input.scrollWidth + 2) + 'px'; // Adjust width to content
+            input.style.width = (input.scrollWidth + 2) + 'px';  // Adjust width to content
         }
     </script>
 </body>
