@@ -42,7 +42,7 @@
         .form-container {
             position: relative;
             width: calc(100vw - 100px);
-            height: calc(100vh - 100px);
+            height: calc(100vh - 150px); /* Уменьшили высоту контейнера, чтобы освободить место для кнопок */
             padding: 20px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -52,6 +52,49 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+        }
+
+        .top-buttons-container {
+            position: absolute;
+            top: 15px;
+            width: 80%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 2;
+        }
+
+        .top-buttons-container button {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #000;
+            background: rgba(255, 255, 255, 0.2);
+            color: black;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.5s ease, background-color 0.5s ease;
+            position: relative;
+        }
+
+        .top-buttons-container button.active {
+            background-color: rgba(0, 0, 0, 0.2); /* Немного темнее, чтобы показать активное состояние */
+        }
+
+        .top-buttons-container button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 4px;
+            border-radius: 2px;
+            background-color: black;
+        }
+
+        .top-buttons-container button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
         }
 
         .buttons-container {
@@ -184,6 +227,13 @@
         <iframe id="background-video" src="https://www.youtube.com/embed/zhDwjnYZiCo?autoplay=1&controls=0&showinfo=0&modestbranding=1&loop=1&mute=1&playlist=zhDwjnYZiCo&vq=hd1080" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
 
+    <div class="top-buttons-container" id="top-buttons-container">
+        <button id="data-button" class="active">Data</button>
+        <button id="button-1">...</button>
+        <button id="button-2">...</button>
+        <button id="button-3">...</button>
+    </div>
+
     <div class="form-container" id="form-container">
         <div class="buttons-container">
             <button type="button" id="tag-archive">Tag Archive</button>
@@ -225,6 +275,8 @@
             document.getElementById('tag-archive').addEventListener('click', openTagModal);
             document.getElementById('close-modal').addEventListener('click', closeTagModal);
 
+            document.getElementById('data-button').addEventListener('click', resetPage);
+
             // Close modal when clicking outside of it
             window.addEventListener('click', (event) => {
                 const modal = document.getElementById('tag-modal');
@@ -238,6 +290,10 @@
             loadTagList();
         });
 
+        function resetPage() {
+            location.reload(); // Перезагрузка страницы при нажатии кнопки Data
+        }
+
         function adjustInputWidth() {
             const input = document.getElementById('tag-input');
             input.style.width = 'auto';
@@ -247,7 +303,7 @@
         function loadTagContent() {
             const tag = document.getElementById('tag-input').value;
             if (tag) {
-                const url = `./tags/${tag}.html`; // Path to tag file
+                const url = `./tags/${tag}.html`; // Путь к файлу тега
                 fetch(url)
                     .then(response => {
                         if (!response.ok) {
@@ -282,7 +338,7 @@
                 }
                 const files = await response.json();
                 const tagList = document.getElementById('tag-list');
-                tagList.innerHTML = ''; // Clear previous content
+                tagList.innerHTML = ''; // Очистка предыдущего содержимого
                 files.forEach(file => {
                     if (file.type === "file" && file.name.endsWith(".html")) {
                         const tagItem = document.createElement('li');
