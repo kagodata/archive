@@ -259,6 +259,11 @@
             const arrowIcon = document.getElementById('arrow-icon');
             const welcomeContainer = document.getElementById('welcome-container');
             const buttonContainer = document.getElementById('button-container');
+            const dataButton = document.getElementById('data');
+
+            dataButton.addEventListener('click', () => {
+                window.location.href = 'https://github.com/kagodata/archive/blob/main/page/data-main.html';
+            });
 
             const typeEffect = (text, element, delay = 50, callback = null) => {
                 let index = 0;
